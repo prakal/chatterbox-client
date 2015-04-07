@@ -24,8 +24,6 @@ app.send = function(message){
 var fetched;
 app.fetch = function(){
   //variables of stuff fetched
-  //var message =
-  //console.log(data);
   $.ajax({
     // always use this url
     url: 'https://api.parse.com/1/classes/chatterbox',
@@ -74,9 +72,6 @@ app.handleSubmit = function(){
     'text': messageContents,
     'roomname': room
   };
-  debugger;
-  console.log('dfsfs');$()
-
   app.send(message);
   event.preventDefault();
 };
@@ -88,13 +83,5 @@ $( document ).ready(function() {
     app.handleSubmit();
   });
     app.fetch();
-
 });
 
-// app.addMessage = function(message){
-//   $('#main').append('<div id = "chats"> <div> <div class="'+message.username+'">'+message.username+'</div> <div>'+message.text+'</div> <div>'+message.roomname+'</div> </div> </div>');
-//   $('.'+message.username).click(function(){
-//     app.addFriend();
-//     console.log("friend added");
-//   });
-// };
