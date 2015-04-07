@@ -40,11 +40,26 @@ app.fetch = function(){
   return fetched;
 };
 
-app.addFriend = function(){
+app.addFriend = function(friend){
+  // app.friendList[friend]=true;
+  console.log(friend.innerHTML);
+  var chatCollection = $('.chats');
+  for (var i = 0; i < chatCollection.length; i++){
+    if (chatCollection[i].children[0].children[0].children[0].innerHTML === friend.innerHTML){
+      chatCollection[i].children[0].children[0].children[0].style.fontStyle='italic';
+    }
+  }
+
+  // console.log("THIS IS A TEST",friend.style);
+  // $(friend).addClass('friend');
+  // friend.style.fontStyle = 'italic';
+
 };
 
+app.friendList = {};
+
 app.clearMessages = function(){
-  $("#chats").remove();
+  $(".chats").remove();
 };
 
 app.addMessage = function(message){
@@ -52,7 +67,7 @@ app.addMessage = function(message){
   message.username = _.escape(message.username);
   message.roomname = _.escape(message.roomname);
 
-  $('#main').append('<div id = "chats"> <div> <div class="username">'+message.username+'</div> <div id = "message send" class="submit">'+message.text+'</div> <div>'+message.roomname+'</div> </div> </div>');
+  $('#main').append('<table class = "chats" id = "chats"> <tr> <td id = "username" onclick = "app.addFriend(this);">'+message.username+'</td> <td id = "message send" class="submit">'+message.text+'</td> <td class = "room" onclick="roomClick(this);">'+message.roomname+'</td> </tr> </table>');
   $('.username').click(function(){
     app.addFriend();
   });
@@ -76,12 +91,28 @@ app.handleSubmit = function(){
   event.preventDefault();
 };
 
+var roomClick = function(event){
+  var roomName = (event.innerHTML);
+  // var filtered = _.filter($(".chats"),function(element){ if (element..children[0].children[0].children[2].innerHTML === roomName) return element});
+  var chatCollection = $('.chats');
+  var filtered = [];
+  for (var i = 0; i < chatCollection.length; i++){
+    if (chatCollection[i].children[0].children[0].children[2].innerHTML === roomName){
+      filtered.push(chatCollection[i]);
+    }
+  }
+  // console.log(filtered);
+  $('.chats').remove();
+  $('#main').append(filtered);
+
+};
+
 $( document ).ready(function() {
     $('#send').click(function(){
-  event.preventDefault();
-
-    app.handleSubmit();
-  });
+      event.preventDefault();
+      app.handleSubmit();
+    });
+    console.log('gets here');
     app.fetch();
 });
 
